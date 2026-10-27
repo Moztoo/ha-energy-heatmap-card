@@ -5,16 +5,16 @@ A theme-aware custom Lovelace Web Component for **Home Assistant** (`custom:ener
 ## Features
 
 - **2D Hour × Day Heatmap Matrix:**
-  - **X-Axis (`00` – `23`):** Hourly bins across the day, highlighting the current live hour and displaying a bottom **`Prom / h`** summary row with the average hourly consumption profile.
-  - **Y-Axis (Days):** Configurable window of days (`7d`, `14d`, `30d`, `60d`, `90d`, or custom `3d`–`180d` via `− / +` stepper) with `◀ / Hoy / ▶` historical window navigation and a right-hand **Daily Total (`kWh`)** / **Daily Peak (`W`)** bar column.
+  - **X-Axis (`00` – `23`):** Hourly bins across the day, highlighting the current live hour and displaying a bottom **`Avg / h`** summary row with the average hourly consumption profile.
+  - **Y-Axis (Days):** Configurable window of days (`7d`, `14d`, `30d`, `60d`, `90d`, or custom `3d`–`180d` via `− / +` stepper) with `◀ / Today / ▶` historical window navigation and a right-hand **Daily Total (`kWh`)** / **Daily Peak (`W`)** bar column.
 - **Interactive Meter / Data Source Selector:**
   - Switch between multiple configured power/energy meters directly from the card toolbar, complete with real-time wattage badges.
   - Supports **computed net loads** via `subtract_power_entities` and `subtract_energy_entities` (for example, isolating net Studio desk consumption by subtracting a nested 3D printer, or computing untracked household consumption by subtracting sub-meters from the main grid breaker).
 - **Long-Term Recorder Statistics + Live Hour Blending:**
   - Queries `recorder/statistics_during_period` (`period: "hour"`) for fast, multi-month historical rendering, and automatically blends `period: "5minute"` short-term statistics (and live entity state) for the ongoing hour.
 - **Dual Metric & Color Scale Modes:**
-  - Toggle between **Hourly Energy / Mean Power (`Wh / Media`)** and **Hourly Peak Power (`W Pico`)**.
-  - Toggle between a multi-stop **Thermal (`🔥 Térmico`)** heatmap palette and a **Meter Accent (`🎨 Medidor`)** color scale.
+  - Toggle between **Hourly Energy / Mean Power (`Wh / Mean`)** and **Hourly Peak Power (`W Peak`)**.
+  - Toggle between a multi-stop **Thermal (`🔥 Thermal`)** heatmap palette and a **Meter Accent (`🎨 Meter`)** color scale.
   - Includes a 4-card KPI summary strip, interactive cell hover/click inspection bar, and **Compact Mode**.
 
 ---
@@ -37,7 +37,7 @@ A theme-aware custom Lovelace Web Component for **Home Assistant** (`custom:ener
 
 ```yaml
 type: custom:energy-heatmap-card
-title: Consumo Eléctrico · Heatmap
+title: Energy Consumption · Heatmap
 default_days: 14
 default_source: grid
 default_metric: energy

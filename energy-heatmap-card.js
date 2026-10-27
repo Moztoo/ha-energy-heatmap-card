@@ -270,16 +270,16 @@ class EnergyHeatmapCard extends HTMLElement {
   _formatDayLabel(dateObj) {
     const todayKey = this._dayKey(new Date());
     const key = this._dayKey(dateObj);
-    const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
-    const monthNames = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const dow = dayNames[dateObj.getDay()];
     const dd = String(dateObj.getDate()).padStart(2, "0");
     const mon = monthNames[dateObj.getMonth()];
     const isWeekend = dateObj.getDay() === 0 || dateObj.getDay() === 6;
     const isToday = key === todayKey;
     return {
-      text: isToday ? `Hoy · ${dd} ${mon}` : `${dow} ${dd} ${mon}`,
-      shortText: isToday ? `Hoy ${dd}` : `${dow} ${dd}`,
+      text: isToday ? `Today · ${dd} ${mon}` : `${dow} ${dd} ${mon}`,
+      shortText: isToday ? `Today ${dd}` : `${dow} ${dd}`,
       fullText: `${dow} ${dd} ${mon} ${dateObj.getFullYear()}`,
       isWeekend,
       isToday,
@@ -1120,40 +1120,40 @@ class EnergyHeatmapCard extends HTMLElement {
             <div>
               <div style="display:flex;align-items:center;gap:8px;">
                 <span class="title" id="card-title">Energy Consumption · Heatmap</span>
-                <span class="loader-badge" id="ehc-loader">Actualizando…</span>
+                <span class="loader-badge" id="ehc-loader">Updating…</span>
               </div>
-              <div class="subtitle" id="card-subtitle">Eje X: Hora del día (00h–23h) · Eje Y: Día</div>
+              <div class="subtitle" id="card-subtitle">X-axis: Hour of day (00h–23h) · Y-axis: Day</div>
             </div>
           </div>
 
           <div class="header-controls">
-            <div class="pill-group" title="Seleccionar periodo en días">
+            <div class="pill-group" title="Select period in days">
               <button class="btn" data-days="7">7d</button>
               <button class="btn" data-days="14">14d</button>
               <button class="btn" data-days="30">30d</button>
               <button class="btn" data-days="60">60d</button>
               <button class="btn" data-days="90">90d</button>
               <span class="days-stepper">
-                <button class="btn" id="btn-days-dec" title="Menos días">−</button>
+                <button class="btn" id="btn-days-dec" title="Fewer days">−</button>
                 <span id="lbl-custom-days">14d</span>
-                <button class="btn" id="btn-days-inc" title="Más días">+</button>
+                <button class="btn" id="btn-days-inc" title="More days">+</button>
               </span>
             </div>
 
-            <div class="pill-group" title="Desplazar ventana de días">
-              <button class="btn" id="btn-nav-prev" title="Periodo anterior">◀</button>
-              <button class="btn" id="btn-nav-today" title="Volver a Hoy">Hoy</button>
-              <button class="btn" id="btn-nav-next" title="Periodo siguiente">▶</button>
+            <div class="pill-group" title="Shift day window">
+              <button class="btn" id="btn-nav-prev" title="Previous period">◀</button>
+              <button class="btn" id="btn-nav-today" title="Back to Today">Today</button>
+              <button class="btn" id="btn-nav-next" title="Next period">▶</button>
             </div>
 
-            <div class="pill-group" title="Métrica a visualizar">
-              <button class="btn" data-metric="energy">Wh / Media</button>
-              <button class="btn" data-metric="peak">W Pico</button>
+            <div class="pill-group" title="Metric to display">
+              <button class="btn" data-metric="energy">Wh / Mean</button>
+              <button class="btn" data-metric="peak">W Peak</button>
             </div>
 
             <div class="pill-group">
-              <button class="btn" id="btn-palette" title="Cambiar escala de color">🔥 Térmico</button>
-              <button class="btn" id="btn-compact" title="Modo compacto">Compact</button>
+              <button class="btn" id="btn-palette" title="Change color scale">🔥 Thermal</button>
+              <button class="btn" id="btn-compact" title="Compact mode">Compact</button>
             </div>
           </div>
         </div>
@@ -1162,22 +1162,22 @@ class EnergyHeatmapCard extends HTMLElement {
 
         <div class="kpi-grid" id="kpi-grid">
           <div class="kpi-box">
-            <span class="kpi-label">Energía en Periodo</span>
+            <span class="kpi-label">Period Energy</span>
             <span class="kpi-val" id="kpi-total">—</span>
             <span class="kpi-sub" id="kpi-total-sub">—</span>
           </div>
           <div class="kpi-box">
-            <span class="kpi-label">Promedio Diario</span>
+            <span class="kpi-label">Daily Average</span>
             <span class="kpi-val" id="kpi-daily">—</span>
             <span class="kpi-sub" id="kpi-daily-sub">—</span>
           </div>
           <div class="kpi-box">
-            <span class="kpi-label">Hora Pico Máxima</span>
+            <span class="kpi-label">Peak Hour</span>
             <span class="kpi-val" id="kpi-peak">—</span>
             <span class="kpi-sub" id="kpi-peak-sub">—</span>
           </div>
           <div class="kpi-box">
-            <span class="kpi-label">Hora Típica Más Alta</span>
+            <span class="kpi-label">Highest Typical Hour</span>
             <span class="kpi-val" id="kpi-habit">—</span>
             <span class="kpi-sub" id="kpi-habit-sub">—</span>
           </div>
@@ -1189,7 +1189,7 @@ class EnergyHeatmapCard extends HTMLElement {
 
         <div class="footer-bar">
           <div class="inspect-box" id="inspect-box">
-            <span>Pasa el cursor o toca una celda (Día, Hora) para inspeccionar su consumo detallado.</span>
+            <span>Hover or tap a cell (Day, Hour) to inspect its detailed consumption.</span>
           </div>
           <div class="legend-wrap">
             <span id="legend-min">0 Wh</span>
@@ -1304,7 +1304,7 @@ class EnergyHeatmapCard extends HTMLElement {
     if (!box) return;
 
     if (!cell || !cell.data) {
-      box.innerHTML = `<span>Pasa el cursor o toca una celda <strong>(Día, Hora)</strong> para ver consumo Wh, potencia media y pico. Doble clic en un medidor abre su historial nativo.</span>`;
+      box.innerHTML = `<span>Hover or tap a cell <strong>(Day, Hour)</strong> to see Wh consumption, mean and peak power. Double-click a meter to open its native history.</span>`;
       return;
     }
 
@@ -1316,15 +1316,15 @@ class EnergyHeatmapCard extends HTMLElement {
     const diffPct = hourlyAvg > 0 ? Math.round(((metricVal - hourlyAvg) / hourlyAvg) * 100) : 0;
     const diffStr =
       hourlyAvg > 0
-        ? `${diffPct >= 0 ? "+" : ""}${diffPct}% vs prom ${hStart}`
+        ? `${diffPct >= 0 ? "+" : ""}${diffPct}% vs avg ${hStart}`
         : "";
 
     box.innerHTML = `
       <span class="inspect-badge" style="border-color:${source.color};">
         ${source.icon} ${cell.dayLabel.text} · ${hStart}–${hEnd}
       </span>
-      <span>Energía: <strong style="color:var(--ehc-text-primary);">${this._fmtEnergyWh(d.wh)}</strong> (${dayPct}% del día)</span>
-      <span>Media: <strong>${this._fmtPower(d.mean)}</strong> · Pico: <strong style="color:#f97316;">${this._fmtPower(d.max)}</strong></span>
+      <span>Energy: <strong style="color:var(--ehc-text-primary);">${this._fmtEnergyWh(d.wh)}</strong> (${dayPct}% of day)</span>
+      <span>Mean: <strong>${this._fmtPower(d.mean)}</strong> · Peak: <strong style="color:#f97316;">${this._fmtPower(d.max)}</strong></span>
       ${diffStr ? `<span>(${diffStr})</span>` : ""}
     `;
   }
@@ -1347,8 +1347,8 @@ class EnergyHeatmapCard extends HTMLElement {
     const liveW = this._getLiveWatts(activeSource);
     const subEl = this.shadowRoot.getElementById("card-subtitle");
     if (subEl) {
-      const livePart = liveW !== null ? ` · Ahora: ${this._fmtPower(liveW)}` : "";
-      subEl.textContent = `${activeSource.name} · Últimos ${this._days} días${livePart}`;
+      const livePart = liveW !== null ? ` · Now: ${this._fmtPower(liveW)}` : "";
+      subEl.textContent = `${activeSource.name} · Last ${this._days} days${livePart}`;
     }
 
     this.shadowRoot.querySelectorAll("[data-days]").forEach((btn) => {
@@ -1368,7 +1368,7 @@ class EnergyHeatmapCard extends HTMLElement {
 
     const btnPalette = this.shadowRoot.getElementById("btn-palette");
     if (btnPalette) {
-      btnPalette.textContent = this._palette === "thermal" ? "🔥 Térmico" : "🎨 Medidor";
+      btnPalette.textContent = this._palette === "thermal" ? "🔥 Thermal" : "🎨 Meter";
       btnPalette.classList.toggle("active", this._palette === "source");
     }
 
@@ -1385,11 +1385,11 @@ class EnergyHeatmapCard extends HTMLElement {
     };
 
     setTxt("kpi-total", `${(matrix.totalPeriodWh / 1000).toFixed(2)} kWh`);
-    setTxt("kpi-total-sub", `${matrix.rows.length} días · ${activeSource.short}`);
+    setTxt("kpi-total-sub", `${matrix.rows.length} days · ${activeSource.short}`);
 
     const avgContinuousW = matrix.avgDailyWh / 24;
     setTxt("kpi-daily", `${(matrix.avgDailyWh / 1000).toFixed(2)} kWh/d`);
-    setTxt("kpi-daily-sub", `~ ${this._fmtPower(avgContinuousW)} continuos`);
+    setTxt("kpi-daily-sub", `~ ${this._fmtPower(avgContinuousW)} continuous`);
 
     if (matrix.peakCell) {
       const ph = String(matrix.peakCell.hour).padStart(2, "0") + ":00";
@@ -1399,10 +1399,10 @@ class EnergyHeatmapCard extends HTMLElement {
           ? this._fmtPower(matrix.peakCell.max)
           : this._fmtEnergyWh(matrix.peakCell.wh)
       );
-      setTxt("kpi-peak-sub", `${matrix.peakCell.dayLabel} a las ${ph}`);
+      setTxt("kpi-peak-sub", `${matrix.peakCell.dayLabel} at ${ph}`);
     } else {
       setTxt("kpi-peak", "—");
-      setTxt("kpi-peak-sub", "Sin datos");
+      setTxt("kpi-peak-sub", "No data");
     }
 
     const bhStart = String(matrix.bestHourIdx).padStart(2, "0") + ":00";
@@ -1410,7 +1410,7 @@ class EnergyHeatmapCard extends HTMLElement {
     setTxt("kpi-habit", `${bhStart} – ${bhEnd}`);
     setTxt(
       "kpi-habit-sub",
-      `Prom: ${
+      `Avg: ${
         this._metric === "peak"
           ? this._fmtPower(matrix.bestHourAvg)
           : this._fmtEnergyWh(matrix.bestHourAvg)
@@ -1444,12 +1444,12 @@ class EnergyHeatmapCard extends HTMLElement {
       this._days > 45 ? "ultra-dense" : this._days > 21 ? "dense" : "";
     const showCellNumbers = this._days <= 16 && !this._compact;
 
-    let theadHtml = `<thead><tr><th class="day-th">Día \\ Hora</th>`;
+    let theadHtml = `<thead><tr><th class="day-th">Day \\ Hour</th>`;
     for (let h = 0; h < 24; h++) {
       const isNowCol = this._offsetDays === 0 && h === nowHour;
       theadHtml += `<th class="hour-th ${isNowCol ? "now-col" : ""}">${String(h).padStart(2, "0")}</th>`;
     }
-    theadHtml += `<th class="total-th">${this._metric === "peak" ? "Pico Día" : "Total Día"}</th></tr></thead>`;
+    theadHtml += `<th class="total-th">${this._metric === "peak" ? "Day Peak" : "Day Total"}</th></tr></thead>`;
 
     let tbodyHtml = `<tbody>`;
     for (let rIdx = 0; rIdx < matrix.rows.length; rIdx++) {
@@ -1467,7 +1467,7 @@ class EnergyHeatmapCard extends HTMLElement {
       for (let h = 0; h < 24; h++) {
         const cell = row.cells[h];
         if (cell.isFuture) {
-          tbodyHtml += `<td class="hm-cell future ${densityClass}" title="Hora futura"></td>`;
+          tbodyHtml += `<td class="hm-cell future ${densityClass}" title="Future hour"></td>`;
           continue;
         }
         const styleInfo = this._getCellBackground(
@@ -1491,12 +1491,12 @@ class EnergyHeatmapCard extends HTMLElement {
         const cellTxt = showCellNumbers ? this._fmtCellShort(cell.val) : "";
         const hStr = `${String(h).padStart(2, "0")}:00`;
         const tooltip = cell.data
-          ? `${row.label.text} (${hStr}) · Energía: ${this._fmtEnergyWh(
+          ? `${row.label.text} (${hStr}) · Energy: ${this._fmtEnergyWh(
               cell.data.wh
-            )} · Media: ${this._fmtPower(cell.data.mean)} · Pico: ${this._fmtPower(
+            )} · Mean: ${this._fmtPower(cell.data.mean)} · Peak: ${this._fmtPower(
               cell.data.max
             )}`
-          : `${row.label.text} (${hStr}) · Sin datos`;
+          : `${row.label.text} (${hStr}) · No data`;
 
         tbodyHtml += `<td class="${classes}"
           data-r="${rIdx}" data-h="${h}"
@@ -1514,7 +1514,7 @@ class EnergyHeatmapCard extends HTMLElement {
           : `${(row.dayTotalWh / 1000).toFixed(2)} kWh`;
 
       tbodyHtml += `
-        <td class="day-total-td" title="Total del día: ${this._fmtEnergyWh(row.dayTotalWh)} · Pico: ${this._fmtPower(row.dayPeakW)}">
+        <td class="day-total-td" title="Day total: ${this._fmtEnergyWh(row.dayTotalWh)} · Peak: ${this._fmtPower(row.dayPeakW)}">
           <div class="day-total-wrap">
             <div class="day-total-bar-bg">
               <div class="day-total-bar-fill" style="width:${barPct.toFixed(1)}%;background:${activeSource.color};"></div>
@@ -1525,7 +1525,7 @@ class EnergyHeatmapCard extends HTMLElement {
       </tr>`;
     }
 
-    tbodyHtml += `<tr class="profile-row"><td class="day-th" style="font-weight:700;color:var(--ehc-text-primary);">Prom / h</td>`;
+    tbodyHtml += `<tr class="profile-row"><td class="day-th" style="font-weight:700;color:var(--ehc-text-primary);">Avg / h</td>`;
     for (let h = 0; h < 24; h++) {
       const avgVal = matrix.hourlyAvgs[h];
       const styleInfo = this._getCellBackground(
@@ -1535,7 +1535,7 @@ class EnergyHeatmapCard extends HTMLElement {
       );
       const txt = showCellNumbers ? this._fmtCellShort(avgVal) : "";
       const hStr = `${String(h).padStart(2, "0")}:00`;
-      tbodyHtml += `<td class="profile-cell" style="background:${styleInfo.bg};color:${styleInfo.fg};" title="Promedio a las ${hStr}: ${
+      tbodyHtml += `<td class="profile-cell" style="background:${styleInfo.bg};color:${styleInfo.fg};" title="Average at ${hStr}: ${
         this._metric === "peak"
           ? this._fmtPower(avgVal)
           : this._fmtEnergyWh(avgVal)
