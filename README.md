@@ -2,6 +2,8 @@
 
 A theme-aware custom Lovelace Web Component for **Home Assistant** (`custom:energy-heatmap-card`) that visualizes historical electrical power and energy consumption as a 2D heatmap with **Hour of Day (`00:00` – `23:00`)** on the **X-axis** and **Day** on the **Y-axis**.
 
+![Energy Consumption Heatmap Card](./Heatmap.png)
+
 ## Features
 
 - **2D Hour × Day Heatmap Matrix:**
